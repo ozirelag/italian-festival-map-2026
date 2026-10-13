@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<title>2026 Italian Heritage Fall Festival | Festival Map</title>
+<meta name="description" content="Zoomable 2026 Italian Heritage Fall Festival site map - vendors, children's games, stage, beer and wine garden.">
+<style>
+:root{color-scheme:light;--green:#075038;--red:#b51b29}*{box-sizing:border-box}html,body{margin:0;min-width:0;min-height:100%;font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#e8ece9;color:#152f25}
+body{min-height:100dvh;height:100dvh;display:flex;flex-direction:column}
+header{padding:10px max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:10px;background:white;border-bottom:4px solid var(--green);flex-wrap:wrap}
+header h1{margin:0;font-size:clamp(16px,2.2vw,22px);line-height:1.2}header small{font-size:12px;color:#53645d;display:block;margin-top:2px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px}button,a.btn{touch-action:manipulation;border:1px solid #cbd4cf;border-radius:7px;background:white;color:#163126;cursor:pointer;padding:8px 11px;font:600 14px system-ui;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:40px}
+button:hover,a.btn:hover{background:#e8f3ed}button:focus-visible,a.btn:focus-visible{outline:3px solid #50ab6c;outline-offset:2px}
+#view{flex:1;min-height:350px;position:relative;overflow:hidden;background:#d6e4dd;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:contain}
+#view.dragging{cursor:grabbing}#map{position:absolute;left:0;top:0;width:4201px;height:auto;max-width:none;pointer-events:none;transform-origin:0 0;will-change:transform;image-rendering:auto;box-shadow:0 2px 18px #31443d4a;background:#fff}
+#hint{position:absolute;left:12px;bottom:12px;border-radius:6px;background:rgba(10,36,26,.88);color:white;font-size:12px;padding:6px 10px;pointer-events:none}
+#loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:16px;border-radius:10px;color:#0c3321;box-shadow:0 2px 15px #0002}
+footer{padding:6px 12px;text-align:center;font-size:12px;color:#526158;background:#f8faf8}
+@media(max-width:640px){header{padding:8px 10px}header small{display:none}.actions{width:100%}.actions button{flex:1}a.btn{flex:1}#hint{font-size:11px}}
+@media print{header,#hint,footer{display:none!important}#view{overflow:visible;height:auto}#map{position:static;max-width:100%;width:100%;transform:none!important;box-shadow:none}}
+</style></head>
+<body>
+<header><div><h1>Italian Heritage Fall Festival 2026</h1><small>Interactive festival site map • Pinch, drag, scroll or use zoom controls</small></div>
+<nav class="actions" aria-label="Map controls"><button id="in" type="button" aria-label="Zoom in">+ Zoom</button><button id="out" type="button" aria-label="Zoom out">− Zoom</button><button id="fit" type="button">Show whole map</button><a class="btn" href="Italian_Heritage_Festival_2026_Web_4K.png" target="_blank" rel="noopener">Open image</a></nav></header>
+<main id="view" role="region" aria-label="Zoomable festival map" tabindex="0"><img id="map" src="2026_festival_map.webp" alt="Italian Heritage Fall Festival 2026 map showing Bosley Avenue, Pennsylvania Avenue, Washington Avenue, stage, children's games, beer and wine garden, cultural areas, and vendor booths" draggable="false" width="4201" height="5251"><div id="loading" role="status">Loading festival map…</div><div id="hint">Pinch or use +/- to zoom · Drag to explore</div></main>
+<footer>Use your browser's controls to rotate or fullscreen your device; no app required.</footer>
+<script>
+(()=>{'use strict';
+ const view=document.getElementById('view'),img=document.getElementById('map'),loading=document.getElementById('loading');
+ let scale=1,min=0.05,max=3,x=0,y=0,loaded=false,active=new Map(),gesture=null;
+ let iw=4201,ih=5251;
+ function draw(){img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;}
+ function bound(){let vw=view.clientWidth,vh=view.clientHeight,sw=iw*scale,sh=ih*scale;
+ x=sw<=vw?(vw-sw)/2:Math.max(vw-sw,Math.min(0,x));y=sh<=vh?(vh-sh)/2:Math.max(vh-sh,Math.min(0,y));draw();}
+ function fit(){if(!loaded)return;const r=view.getBoundingClientRect();min=Math.min(r.width/iw,r.height/ih); max=Math.max(min*12,1);scale=min;x=(r.width-iw*scale)/2;y=(r.height-ih*scale)/2;bound();}
+ function zoom(f,cx,cy){if(!loaded)return;const z=Math.min(max,Math.max(min,scale*f));const ax=(cx-x)/scale,ay=(cy-y)/scale;scale=z;x=cx-ax*scale;y=cy-ay*scale;bound();}
+ function point(e){const r=view.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+ img.addEventListener('load',()=>{iw=img.naturalWidth;ih=img.naturalHeight;loaded=true;loading.remove();fit();});img.addEventListener('error',()=>{loading.textContent='Map image unavailable. Upload 2026_festival_map.webp beside this HTML file.';});
+ document.getElementById('in').onclick=()=>zoom(1.5,view.clientWidth/2,view.clientHeight/2);
+ document.getElementById('out').onclick=()=>zoom(1/1.5,view.clientWidth/2,view.clientHeight/2);
+ document.getElementById('fit').onclick=fit;
+ view.addEventListener('wheel',e=>{if(!loaded)return;e.preventDefault();const p=point(e);zoom(Math.exp(-e.deltaY*0.002),p.x,p.y);},{passive:false});
+ view.addEventListener('pointerdown',e=>{if(!loaded)return;view.setPointerCapture(e.pointerId);active.set(e.pointerId,point(e));view.classList.add('dragging');gesture=null;});
+ view.addEventListener('pointermove',e=>{if(!active.has(e.pointerId))return;const p=point(e),old=active.get(e.pointerId);active.set(e.pointerId,p);
+ if(active.size===1){x+=p.x-old.x;y+=p.y-old.y;bound();}
+ else if(active.size>=2){const pts=[...active.values()].slice(0,2);const c={x:(pts[0].x+pts[1].x)/2,y:(pts[0].y+pts[1].y)/2};const dist=Math.hypot(pts[1].x-pts[0].x,pts[1].y-pts[0].y);if(gesture&&gesture.dist>0){x+=c.x-gesture.c.x;y+=c.y-gesture.c.y;zoom(dist/gesture.dist,c.x,c.y);} gesture={c,dist};}});
+ function end(e){active.delete(e.pointerId);gesture=null;if(active.size===0)view.classList.remove('dragging');}
+ view.addEventListener('pointerup',end);view.addEventListener('pointercancel',end);view.addEventListener('lostpointercapture',end);
+ view.addEventListener('dblclick',e=>{e.preventDefault();const p=point(e);zoom(2,p.x,p.y)});
+ view.addEventListener('keydown',e=>{if(e.key==='+'||e.key==='=')zoom(1.3,view.clientWidth/2,view.clientHeight/2);else if(e.key==='-')zoom(1/1.3,view.clientWidth/2,view.clientHeight/2);else if(e.key==='0')fit();else return;e.preventDefault();});
+ new ResizeObserver(()=>{if(loaded)bound()}).observe(view);
+})();
+</script></body></html>
