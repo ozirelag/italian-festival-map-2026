@@ -12,7 +12,7 @@ header h1{margin:0;font-size:clamp(16px,2.2vw,22px);line-height:1.2}header small
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px}button,a.btn{touch-action:manipulation;border:1px solid #cbd4cf;border-radius:7px;background:white;color:#163126;cursor:pointer;padding:8px 11px;font:600 14px system-ui;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:40px}
 button:hover,a.btn:hover{background:#e8f3ed}button:focus-visible,a.btn:focus-visible{outline:3px solid #50ab6c;outline-offset:2px}
 #view{flex:1;min-height:350px;position:relative;overflow:hidden;background:#d6e4dd;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:contain}
-#view.dragging{cursor:grabbing}#map{position:absolute;left:0;top:0;width:4201px;height:auto;max-width:none;pointer-events:none;transform-origin:0 0;will-change:transform;image-rendering:auto;box-shadow:0 2px 18px #31443d4a;background:#fff}
+#view.dragging{cursor:grabbing}#map{position:absolute;left:0;top:0;width:1634px;height:auto;max-width:none;pointer-events:none;transform-origin:0 0;will-change:transform;image-rendering:auto;box-shadow:0 2px 18px #31443d4a;background:#fff}
 #hint{position:absolute;left:12px;bottom:12px;border-radius:6px;background:rgba(10,36,26,.88);color:white;font-size:12px;padding:6px 10px;pointer-events:none}
 #loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:16px;border-radius:10px;color:#0c3321;box-shadow:0 2px 15px #0002}
 footer{padding:6px 12px;text-align:center;font-size:12px;color:#526158;background:#f8faf8}
@@ -21,14 +21,14 @@ footer{padding:6px 12px;text-align:center;font-size:12px;color:#526158;backgroun
 </style></head>
 <body>
 <header><div><h1>Italian Heritage Fall Festival 2026</h1><small>Interactive festival site map • Pinch, drag, scroll or use zoom controls</small></div>
-<nav class="actions" aria-label="Map controls"><button id="in" type="button" aria-label="Zoom in">+ Zoom</button><button id="out" type="button" aria-label="Zoom out">− Zoom</button><button id="fit" type="button">Show whole map</button><a class="btn" href="Italian_Heritage_Festival_2026_Web_4K.png" target="_blank" rel="noopener">Open image</a></nav></header>
-<main id="view" role="region" aria-label="Zoomable festival map" tabindex="0"><img id="map" src="2026_festival_map.webp" alt="Italian Heritage Fall Festival 2026 map showing Bosley Avenue, Pennsylvania Avenue, Washington Avenue, stage, children's games, beer and wine garden, cultural areas, and vendor booths" draggable="false" width="4201" height="5251"><div id="loading" role="status">Loading festival map…</div><div id="hint">Pinch or use +/- to zoom · Drag to explore</div></main>
+<nav class="actions" aria-label="Map controls"><button id="in" type="button" aria-label="Zoom in">+ Zoom</button><button id="out" type="button" aria-label="Zoom out">− Zoom</button><button id="fit" type="button">Show whole map</button><a class="btn" href="Italian_Heritage_Festival_2026_Web_4K.png" target="_blank" rel="noopener">Open high-resolution image</a></nav></header>
+<main id="view" role="region" aria-label="Zoomable festival map" tabindex="0"><img id="map" src="2026_festival_map.webp" alt="Italian Heritage Fall Festival 2026 map showing Bosley Avenue, Pennsylvania Avenue, Washington Avenue, stage, children's games, beer and wine garden, cultural areas, and vendor booths" draggable="false" width="1634" height="2042"><div id="loading" role="status">Loading festival map…</div><div id="hint">Pinch or use +/- to zoom · Drag to explore</div></main>
 <footer>Use your browser's controls to rotate or fullscreen your device; no app required.</footer>
 <script>
 (()=>{'use strict';
  const view=document.getElementById('view'),img=document.getElementById('map'),loading=document.getElementById('loading');
  let scale=1,min=0.05,max=3,x=0,y=0,loaded=false,active=new Map(),gesture=null;
- let iw=4201,ih=5251;
+ let iw=1634,ih=2042;
  function draw(){img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;}
  function bound(){let vw=view.clientWidth,vh=view.clientHeight,sw=iw*scale,sh=ih*scale;
  x=sw<=vw?(vw-sw)/2:Math.max(vw-sw,Math.min(0,x));y=sh<=vh?(vh-sh)/2:Math.max(vh-sh,Math.min(0,y));draw();}
